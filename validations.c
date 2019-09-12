@@ -1,11 +1,10 @@
-/*
+﻿/*
  * validations.c
  *
  *  Created on: 11 sep. 2019
  *      Author: Daniel
  */
-#define CANTIDAD_NUMEROS 5
-#define MAX_INT 65535
+
 #define EXIT_FAIL -1
 
 #include <stdio.h>
@@ -15,26 +14,23 @@
 #include "profile.h"
 
 
-int getInt(int *result, char *msg, char *msgFail, int minus, int maximus, int try)
+int getInt(int *pResult, char *pMsg, char *pMsgFail, int min, int max, int try)
 {
-	int auxReturn = EXIT_FAIL;
+	int auxReturn = EXIT_FAIL -1;
 	int buffer;
-	if (result != NULL && msg != NULL && msgFail != NULL && minus < maximus && try >= 0)
+	do
 	{
-		do
+		printf("%s",pMsg);
+		fflush(stdin);
+		if(scanf("%d",&buffer)==1 && buffer >= min && buffer <= max)
 		{
-			printf("%s", msg);
-			fflush(stdin); //__fpurge(stdin); //en windows funciona __fflush para limpiar
-			if (scanf("%d", &buffer) == 1 && buffer >= minus && buffer <= maximus)
-			{
-				auxReturn = EXIT_SUCCESS;
-				*result = buffer; //caso de exito
-				break; //de aca salgo del while y evito poner el else
-			}
-			printf("%s", msgFail);
-			try--;
-		} while (try >= 0);
-	}
+			*pResult = buffer;
+			auxReturn = 0;
+			break;
+		}
+		printf("%s",pMsgFail);
+		try--;
+	}while(try >= 0);
 	return auxReturn;
 }
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,4 +84,74 @@ char getChar(char *resultChar, char *msgChar, char *msgFailChar, char minus, cha
 		} while (try >= 0);
 	}
 	return auxReturn;
+}
+/////////////////////////01
+int isNumeric(char str[])
+{
+   int i=0;
+   while(str[i] != '\0')
+   {
+       if(str[i] < '0' || str[i] > '9')
+           return 0;
+       i++;
+   }
+   return 1;
+}
+/**
+ * \brief Verifica si el valor recibido contiene solo letras
+ * \param str Array con la cadena a ser analizada
+ * \return 1 si contiene solo ' ' y letras y 0 si no lo es
+ *
+ */
+int isLetter(char str[])
+{
+   int i=0;
+   while(str[i] != '\0')
+   {
+       if((str[i] != ' ') && (str[i] < 'a' || str[i] > 'z') && (str[i] < 'A' || str[i] > 'Z'))
+           return 0;
+       i++;
+   }
+   return 1;
+}
+//////////////////////////////
+/**
+ * \brief Verifica si el valor recibido contiene solo letras y números
+ * \param str Array con la cadena a ser analizada
+ * \return 1 si contiene solo espacio o letras y números, y 0 si no lo es
+ *
+ */
+int isAlphaNumeric(char str[])
+{
+   int i=0;
+   while(str[i] != '\0')
+   {
+       if((str[i] != ' ') && (str[i] < 'a' || str[i] > 'z') && (str[i] < 'A' || str[i] > 'Z') && (str[i] < '0' || str[i] > '9'))
+           return 0;
+       i++;
+   }
+   return 1;
+}
+/**
+ * \brief Verifica si el valor recibido contiene solo números, + y -
+ * \param str Array con la cadena a ser analizada
+ * \return 1 si contiene solo numeros, espacios y un guion.
+ *
+ */
+int isTelephone(char str[])
+{
+   int i=0;
+   int scoreCounter=0;
+   while(str[i] != '\0')
+   {
+       if((str[i] != ' ') && (str[i] != '-') && (str[i] < '0' || str[i] > '9'))
+           return 0;
+       if(str[i] == '-')
+    	   scoreCounter++;
+       i++;
+   }
+   if(scoreCounter==1) // debe tener un guion
+        return 1;
+
+    return 0;
 }

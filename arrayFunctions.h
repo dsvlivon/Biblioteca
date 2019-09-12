@@ -1,16 +1,13 @@
-/*
- * arrayFunctions.h
- *
- *  Created on: 11 sep. 2019
- *      Author: Daniel
- */
+int initArrayInt(int *pArray , int limit, int value);
 
-int getInt(int *pResul,char *pMsg,char *pMsgFail,int minus,int maximus,int try);
-int initArrayInt(int array[],int limit,int value );
-int printArrayInt(int array[],int limit );
-int getArrayInt(int array[],int limit, char *pMsg,char *pMsgFail,int minus,int maximus,int try);
-int maxArrayInt(int array[],int limit,int *pResult);
-int orderArrayInt(int array[],int limit);
-int averageArrayInt(int array[],int limit);
-int maxAndMinArray(int array[],int limit);
+int getArrayInt(int *pArray,int limit,char *pMsg,char *pMsgFail,int minus,int maximus,int try);
 
+int printArrayInt(int *pArray , int limit);
+
+int minMaxArrayInt(int* pArray,int limit,int* min,int* max);
+
+int addArrayInt(int* pArray,int limit,int* result);
+
+int promedioArrayInt(int* pArray,int limit,int* resultAv);//promedio
+
+int OrderArrayInt(int* pArray,int limit);

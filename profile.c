@@ -10,18 +10,36 @@
 
 #define EXIT_FAIL -1
 
-int getAge(int pArray[],int limit)
+int getAge(int *result, char *msg, char *msgFail, int try)
 {
     int i;
+    int buffer=result;
 	int auxReturn = EXIT_FAIL;
+	char class;
 
-    if(pArray != NULL && limit > 0)
+    if(buffer != NULL && try > 0)
 	{
-    	auxReturn = 0;
-		for(i=0;i<limit;i++)
+    	for(i=0;i<try;i++)
 		{
-			printf("\nIngrese la edad de :X");
-            scanf("%d",pArray[i]);
+    		printf("%s", msg);
+            scanf("%d",buffer);
+            if(buffer >0||buffer <110)
+            {
+            	if(buffer>=18)
+            	{
+            		class="mayor de edad";
+            	}
+            	else if(buffer>=13 && buffer <18)
+            	{
+            		class="Adolescente";
+            	}
+            	else
+            	{
+            		class="menor de edad";
+            	}
+            	i=try;
+            	auxReturn = 0;
+            }
 		}
 	}
     return auxReturn;

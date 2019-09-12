@@ -14,198 +14,150 @@
 #define EXIT_FAIL -1
 
 
-int getInt(int *pResult,char *pMsg,char *pMsgFail,int minus,int maximus,int try)
+int initArrayInt(int *pArray , int limit, int value)
 {
-	int auxReturn = EXIT_FAIL;
-	int buffer;
-	do
-	{
-		printf("%s",pMsg);
-		__fpurge(stdin);
-		if(scanf("%d",&buffer)==1 && buffer >= minus && buffer <= maximus)
-		{
-			*pResult = buffer;
-			auxReturn = 0;
-			break;
-		}
-		printf("%s",pMsgFail);
-		try--;
-	}while(try >= 0);
-	return auxReturn;
-}
-///////////////////////////////////////////////////
-int initArrayInt(int array[],int limit,int value )
-{
+	int auxReturn = -1;
 	int i;
-	int auxReturn = EXIT_FAIL;
-	if(array != NULL && limit > 0)
+	if(pArray != NULL && limit > 0)
 	{
-		auxReturn = 0;
 		for(i=0;i<limit;i++)
 		{
-			array[i]=value+i;
+			pArray[i]=value;
 		}
-
+		auxReturn = 0;
 	}
 	return auxReturn;
 }
 ////////////////////////////////////////////
-int printArrayInt(int array[],int limit )
+int printArrayInt(int *pArray , int limit)
 {
+	int auxReturn = -1;
 	int i;
-	int auxReturn = EXIT_FAIL;
-	if(array != NULL && limit > 0)
+	printf("\nDEBUG\n");
+	if(pArray != NULL && limit > 0)
 	{
-		auxReturn = 0;
-		printf("\n\n-------\n");
 		for(i=0;i<limit;i++)
 		{
-			printf("%d\n",array[i]);
+			printf("\n\t%i",pArray[i]);
 		}
+		int auxReturn = 0;
 	}
 	return auxReturn;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int getArrayInt(int array[],int limit,char *pMsg,char *pMsgFail,int minus,int maximus,int try)
+int getArrayInt(int *pArray,int limit,char *pMsg,char *pMsgFail,int min,int max,int try)
 {
-	int i=0;
+	int auxReturn = -1;
 	int buffer;
-	char answer = 'n';
-	int auxReturn = EXIT_FAIL;
-	if(array != NULL && limit > 0)
+	int i=0;
+	char answer;
+	printf("\nDEBUG\n");
+	if(pArray != NULL && limit > 0)
 	{
 		do
 		{
-			if(getInt(&buffer,pMsg,pMsgFail,minus,maximus,try) == 0)
+
+			if(	getInt(	&buffer, pMsg, pMsgFail, min, max, try) == 0)
 			{
-				array[i] = buffer;
+				pArray[i] = buffer;
 				i++;
-				limit--;
+				if(i == limit)
+				{
+					break;
+				}
 			}
-			printf("Continuar? (s/n)");
-			__fpurge(stdin);
+
+			printf("Continuar (s/n)? \n");
+			fflush(stdin); // __fpurge(stdin)
 			scanf("%c",&answer);
-		}while(answer == 's' && limit > 0);
+		}while(answer != 'n');
 		auxReturn = i;
 	}
-	return auxReturn;
+	return auxReturn ;
 }
 //////////////////////////////////////////////////////////
-int maxArrayInt(int array[],int limit,int *pResult)
+int minMaxArrayInt(int* pArray,int limit,int* minus,int* maximus)
 {
-	int i;
-	int auxReturn = EXIT_FAIL;
-	int maximus;
-	int posMax;
-	if(array != NULL && limit > 0)
+    int min=*minus;
+    int max=*maximus;
+    int i;
+
+    for (i=0; i<limit; i++)
+    {
+        if(i==0)
 	{
-		auxReturn = 0;
-		maximus = array[0];
-		posMax = 0;
-		for(i=1;i<limit; i++)
-		{
-			if(array[i]>maximus)
-			{
-				maximus = array[i];
-				posMax=i;
-			}
-		}
-		*pResult = posMax;
-	}
-	return auxReturn;
+            min=pArray[i];
+            max=pArray[i];
+        }
+        else
+        {
+            if (pArray[i]<min)
+	    {
+                min=pArray[i];
+            }
+            if (pArray[i]>max)
+	    {
+                max=pArray[i];
+            }
+        }
+    }
+    *minus = min;
+    *maximus = max;
+
+   return 0;
+}
+//////////////////////////////////////////////////
+int addArrayInt(int* pArray,int limit,int* result)
+{
+    int res=0;
+    int i;
+
+    for (i=0; i<limit; i++)
+    {
+        res=res+pArray[i] ;
+    }
+
+    *result = res;
+
+   return 0;
+}
+////////////////////////////////////////////////////////
+int averageArrayInt(int* pArray,int limit,int* resultAv)//promedio
+{
+    int res=0;
+    int i;
+
+    for (i=0; i<limit; i++)
+    {
+        res=res+pArray[i] ;
+    }
+
+    *resultadoAv = res/limit;
+
+   return 0;
 }
 ///////////////////////////////////////////
-int orderArrayInt(int array[],int limit)
+int orderArrayInt(int *pArray, int limit)
 {
-	int i,posMax,auxiliar;
-	int *auxArray=array;
-	int auxReturn = EXIT_FAIL;
-	int flag=1;
+    int i, aux, flag=-1;
+    int* arrayAux = pArray;
 
-	if(array != NULL && limit > 0)
-	{
-		while(flag==1)
-		{
-			flag=0;
 
-			for(i=0;i<(limit-1);i++)
-			{
-				if(array[i]>array[i]+1)
-				{
-					auxiliar = auxArray[i];
-					auxArray[i]=auxArray[i+1];
-					auxArray[i+1]=auxiliar;
-					flag=1;
-				}
-			flag=0;
-	}
-	array = auxArray;
-
-	return auxReturn;
-}
-////////////////////////////////////////////
-int averageArrayInt(int array[],int limit)
-{
-    int i;
-	int auxReturn = EXIT_FAIL;
-	float acumulator=0;
-
-    if(array != NULL && limit > 0)
-	{
-        for(i=0;i<limit;i++)
-        {
-            acumulator=acumulator+array[i];
-            auxReturn=0;
-        }
-        printf("\nEl acumulado es: %f",acumulator);
-        printf("\nEl promedio es: %f",acumulator/i);
-    }
-    return auxReturn;
-}
-//////////////////////////////////////////////
-int maxAndMinArray(int array[],int limit)
-{
-    int i;
-	int auxReturn = EXIT_FAIL;
-	float acumulator=0;
-	float maximus, minus;
-
-    if(array != NULL && limit > 0)
-	{
-        for(i=0;i<limit;i++)
-        {
-            if(i==0 || array[i]> maximus)
-            {
-                maximus = array[i];
-            }
-            if(i==0 || array[i]< minus)
-            {
-                minus = array[i];
-            }
-        }
-        printf("\nEl maximo es: %f",maximus);
-        printf("\nEl minimo es: %f",minus);
-    }
-    return auxReturn;
-}
-//////////////////////////////////////
-/*
-int orderArray(int*pArray, int limite)
-flag=1,i,retorno;
-
-while (flag==1)
-{
-    flag=0;
-    for (i=0;i<(limite-1);i++)
+    while(flag==-1)
     {
-        if (array[i]>pArray[i+1])
+        flag=0;
+        for(i=0; i<(limit-1);i++)
         {
-            aux=pArray[i];
-            pArray[i]=pArray[i+1];
-            pArray[i+1]=aux;
-            flag=1;
+           if(arrayAux[i]>arrayAux[i+1])
+	   {
+		aux = arrayAux[i];
+            	arrayAux[i]=arrayAux[i+1];
+            	arrayAux[i+1]=aux;
+            	flag=-1;
+           }
         }
+
     }
-    return retorno;
+    pArray = arrayAux;
+    return 0;
 }
-*/
