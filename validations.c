@@ -4,154 +4,239 @@
  *  Created on: 11 sep. 2019
  *      Author: Daniel
  */
-
-#define EXIT_FAIL -1
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "validations.h"
-#include "arrayFunctions.h"
-#include "profile.h"
+#include <string.h>
+#include "utn.h"
 
+#define TRY 2
 
-int getInt(int *pResult, char *pMsg, char *pMsgFail, int min, int max, int try)
+int getInt(int *pResult ,char *pMsg,char *pMsgFail,int min,int max, int try)
 {
-	int auxReturn = EXIT_FAIL -1;
-	int buffer;
-	do
+	int auxReturn = -1;
+	int buffer, j;
+	char input[50];
+
+	if(pResult!= NULL || (max>min) || try>0 )
 	{
 		printf("%s",pMsg);
-		fflush(stdin);
-		if(scanf("%d",&buffer)==1 && buffer >= min && buffer <= max)
+		for(j=0;j<try;j++)
 		{
-			*pResult = buffer;
-			auxReturn = 0;
+			fgets(input, sizeof(input), stdin);
+			auxReturn = isNumeric(input);
+            printf("error = %i\n", auxReturn);
+			if(auxReturn == 0)
+            {
+                buffer = atoi(input);
+
+                if(buffer >= min && buffer <= max)
+                {
+                    *pResult = buffer;
+                    break;
+                }
+            }
+            else
+            {
+                printf("%s",pMsgFail);
+                printf("%s",pMsg);
+            }
+        }
+        if(j == try && auxReturn != 0)
+        {
+            printf(" Sin reintentos.");
+        }
+    }
+	return auxReturn;
+}
+/////////////////////////////////////////////////////////////////////////////////////
+float getFloat(float *pResult, char *pMsg, char *pMsgFail, int min, int max, int try)
+{
+	int auxReturn = -1;
+	float buffer;
+	int j;
+	char input[50];
+
+	if(pResult!= NULL || (max>min) || try>0 )
+	{
+		printf("%s",pMsg);
+		for(j=0;j<try;j++)
+		{
+            fgets(input, sizeof(input), stdin);
+
+			auxReturn = isDecimal(input);
+			if(auxReturn == 0)
+			{
+				buffer = atof(input);
+				if(buffer >= min && buffer <= max)
+				{
+                    *pResult = buffer;
+				}
+    			else
+				{
+					printf("%s",pMsgFail);
+				}
+        	}
+       		if(j == try && auxReturn != 0)
+        	{
+         		printf(" Sin reintentos.");
+        	}
+        }
+    }
+	return auxReturn;
+}
+///////////////////////////////////////////////////////////////////////////////////////
+char getChar(char *pResult, char *pMsg, char *pMsgFail, int min, int max, int try)
+{
+    int auxReturn = -1;
+	char buffer;
+	int j;
+	char input[50];
+
+	if(pResult!= NULL || (max>min) || try>0 )
+	{
+        printf("%s", pMsg);
+		for(j=0;j<try;j++)
+		{
+            fgets (input, sizeof(input), stdin);
+
+			auxReturn = isLetter(input);
+			if(auxReturn == 0)
+			{
+				buffer = atof(input);
+				*pResult = buffer;
+			}
+			else if(auxReturn==-1)
+			{
+				printf("%s. %s",pMsg, pMsgFail);
+			}
+			if(j == try && auxReturn == -1)
+        	{
+         		printf(" Sin reintentos.");
+        	}
+		}
+	}
+	return auxReturn;
+}
+/////////////////////////
+int isNumeric(char aux[])
+{
+    int i, length, auxReturn=0;
+
+    length = strlen(aux);
+    for(i=0;i<length-1;i++)
+    {
+        if((aux[i] < '0' || aux[i] > '9') && aux[i] != '-') //filtro numerico
+        {
+			auxReturn = -1;
+            break;
+		}
+		if(aux[i]=='-'&& i!=0) // filtro p/negativos
+		{
+			auxReturn = -1;
 			break;
 		}
-		printf("%s",pMsgFail);
-		try--;
-	}while(try >= 0);
-	return auxReturn;
+    }
+    return auxReturn;
 }
-////////////////////////////////////////////////////////////////////////////////////////////
-float getFloat(float *result, char *msg, char *msgFail, float minus, float maximus, int try)
+/////////////////////////
+int isDecimal(char aux[])
 {
-	int auxReturn = EXIT_FAIL;
-	float buffer;
-	if (result != NULL && msg != NULL && msgFail != NULL && maximus > minus && try >= 0)
-	{
-		do
+    int i, length, auxReturn=0;
+
+    length = strlen(aux);
+    for(i=0;i<length-1;i++)
+    {
+        if(aux[i] < '0' || aux[i] > '9' || aux[i]!= ',' || aux[i]!= '.' || aux[i]!= '-')
 		{
-			printf("%s", msg);
-			fflush(stdin); //__fpurge(stdin);
-			if (scanf("%f", &buffer) == 1)
-			{
-				if (buffer >= minus && buffer <= maximus)
-				{
-					auxReturn = 0; //EXIT_SUCCESS;
-					*result = buffer;
-					break;
-				}
-			}
-			printf("%s", msgFail);
-			try--;
-		} while (try >= 0);
-	}
-	return auxReturn;
-}
-///////////////////////////////////////////////////////////////////////////////////////////////////
-char getChar(char *resultChar, char *msgChar, char *msgFailChar, char minus, char maximus, int try)
-{
-	int auxReturn = EXIT_FAIL;
-	char bufferChar;
-	if (resultChar != NULL && msgChar != NULL && msgFailChar != NULL && minus < maximus && try >= 0)
-	{
-		do
+            auxReturn = -1;
+            break;
+        }
+        if(aux[i]==',')
 		{
-			printf("%s", msgChar);
-			fflush(stdin); //__fpurge(stdin);
-			if (scanf("%c", &bufferChar) == 1)
+			aux[i]='.';
+		}
+		if(aux[i]=='-'&& i!=0) // filtro p/negativos
+		{
+			auxReturn = -1;
+			break;
+		}
+    }
+    return auxReturn;
+}
+////////////////////////
+int isLetter(char aux[])
+{
+ 	int i, length, auxReturn=0;
+
+	length=strlen(aux);
+	for(i=0;i<length-1;i++)
+   	//while(aux[i] != '\0' || aux[i] != '\n')
+   	{
+		if((aux[i] < 'a' || aux[i] > 'z') && (aux[i] < 'A' || aux[i] > 'Z')) //filtro letras
+		{
+			if(aux[i] != ' ') //excepciones
 			{
-				if (bufferChar >= minus && bufferChar <= maximus)
-				{
-					auxReturn = EXIT_SUCCESS;
-					*resultChar = bufferChar;
-					break;
-				}
+				auxReturn = -1;
+       			break;
+			//i++;
 			}
-			printf("%s", msgFailChar);
-			try--;
-		} while (try >= 0);
+   		}
 	}
-	return auxReturn;
-}
-/////////////////////////01
-int isNumeric(char str[])
-{
-   int i=0;
-   while(str[i] != '\0')
-   {
-       if(str[i] < '0' || str[i] > '9')
-           return 0;
-       i++;
-   }
-   return 1;
-}
-/**
- * \brief Verifica si el valor recibido contiene solo letras
- * \param str Array con la cadena a ser analizada
- * \return 1 si contiene solo ' ' y letras y 0 si no lo es
- *
- */
-int isLetter(char str[])
-{
-   int i=0;
-   while(str[i] != '\0')
-   {
-       if((str[i] != ' ') && (str[i] < 'a' || str[i] > 'z') && (str[i] < 'A' || str[i] > 'Z'))
-           return 0;
-       i++;
-   }
-   return 1;
+   return auxReturn;
 }
 //////////////////////////////
-/**
- * \brief Verifica si el valor recibido contiene solo letras y números
- * \param str Array con la cadena a ser analizada
- * \return 1 si contiene solo espacio o letras y números, y 0 si no lo es
- *
- */
-int isAlphaNumeric(char str[])
+int isAlphaNumeric(char aux[])
 {
-   int i=0;
-   while(str[i] != '\0')
-   {
-       if((str[i] != ' ') && (str[i] < 'a' || str[i] > 'z') && (str[i] < 'A' || str[i] > 'Z') && (str[i] < '0' || str[i] > '9'))
-           return 0;
-       i++;
-   }
-   return 1;
-}
-/**
- * \brief Verifica si el valor recibido contiene solo números, + y -
- * \param str Array con la cadena a ser analizada
- * \return 1 si contiene solo numeros, espacios y un guion.
- *
- */
-int isTelephone(char str[])
-{
-   int i=0;
-   int scoreCounter=0;
-   while(str[i] != '\0')
-   {
-       if((str[i] != ' ') && (str[i] != '-') && (str[i] < '0' || str[i] > '9'))
-           return 0;
-       if(str[i] == '-')
-    	   scoreCounter++;
-       i++;
-   }
-   if(scoreCounter==1) // debe tener un guion
-        return 1;
+  	int i, length, auxReturn=0;
 
-    return 0;
+	length=strlen(aux);
+	for(i=0;i<length-1;i++)
+   	//while(aux[i] != '\0' || aux[i] != '\n')
+	{
+	   	if((aux[i] < 'a' || aux[i] > 'z') && (aux[i] < 'A' || aux[i] > 'Z')) //filtro letras
+		{
+			auxReturn = -1;
+		}
+		else if(aux[i] < '0' || aux[i] > '9') //filtro numerico
+		{
+			auxReturn = -1;
+		}
+		else if((aux[i] != ' ') && (aux[i] != ',') && (aux[i] != '.')) //excepciones
+		{
+			auxReturn = -1;
+			//i++;
+		}
+		break;
+	}
+   return auxReturn;
 }
+///////////////////////////
+int isTelephone(char aux[])
+{
+   	int i, length, auxReturn=0;
+ 	int symbolCounter=0;
+
+	length=strlen(aux);
+	for(i=0;i<length-1;i++)
+   	{
+		if((aux[i] < '0' || aux[i] > '9') && (aux[i] != ' '|| aux[i] != '-' || aux[i] != '+'))
+		{
+			auxReturn=-1;
+			break;//i++;
+		}
+		if(symbolCounter >2)
+		{
+			if(aux[i] == '-' && i!=0)
+			{
+				symbolCounter ++;
+			}
+			if(aux[0] == '+' )
+			{
+				symbolCounter ++;
+			}
+			auxReturn = -1;
+		}
+    }
+    return auxReturn;
+}
+
