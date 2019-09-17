@@ -7,12 +7,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "utn.h"
+#include "validations.h"
 
-#define TRY 2
-
-int getInt(int *pResult ,char *pMsg,char *pMsgFail,int min,int max, int try)
-{
+int getInt(int *pResult ,char *pMsg,char *pMsgFail,int min,int max, int try){
 	int auxReturn = -1;
 	int buffer, j;
 	char input[50];
@@ -24,8 +21,7 @@ int getInt(int *pResult ,char *pMsg,char *pMsgFail,int min,int max, int try)
 		{
 			fgets(input, sizeof(input), stdin);
 			auxReturn = isNumeric(input);
-            printf("error = %i\n", auxReturn);
-			if(auxReturn == 0)
+            if(auxReturn == 0)
             {
                 buffer = atoi(input);
 
@@ -38,19 +34,19 @@ int getInt(int *pResult ,char *pMsg,char *pMsgFail,int min,int max, int try)
             else
             {
                 printf("%s",pMsgFail);
-                printf("%s",pMsg);
+                printf("\n%s",pMsg);
+                auxReturn = -1;
             }
         }
-        if(j == try && auxReturn != 0)
+        if(auxReturn!=0)
         {
-            printf(" Sin reintentos.");
+            printf("Sin Reintentos.");
         }
     }
 	return auxReturn;
 }
 /////////////////////////////////////////////////////////////////////////////////////
-float getFloat(float *pResult, char *pMsg, char *pMsgFail, int min, int max, int try)
-{
+float getFloat(float *pResult, char *pMsg, char *pMsgFail, int min, int max, int try){
 	int auxReturn = -1;
 	float buffer;
 	int j;
@@ -84,9 +80,8 @@ float getFloat(float *pResult, char *pMsg, char *pMsgFail, int min, int max, int
     }
 	return auxReturn;
 }
-///////////////////////////////////////////////////////////////////////////////////////
-char getChar(char *pResult, char *pMsg, char *pMsgFail, int min, int max, int try)
-{
+//////////////////////////////////////////////////////////////////////////////////
+char getChar(char *pResult, char *pMsg, char *pMsgFail, int min, int max, int try){
     int auxReturn = -1;
 	char buffer;
 	int j;
@@ -118,8 +113,7 @@ char getChar(char *pResult, char *pMsg, char *pMsgFail, int min, int max, int tr
 	return auxReturn;
 }
 /////////////////////////
-int isNumeric(char aux[])
-{
+int isNumeric(char aux[]){
     int i, length, auxReturn=0;
 
     length = strlen(aux);
@@ -139,8 +133,7 @@ int isNumeric(char aux[])
     return auxReturn;
 }
 /////////////////////////
-int isDecimal(char aux[])
-{
+int isDecimal(char aux[]){
     int i, length, auxReturn=0;
 
     length = strlen(aux);
@@ -164,8 +157,7 @@ int isDecimal(char aux[])
     return auxReturn;
 }
 ////////////////////////
-int isLetter(char aux[])
-{
+int isLetter(char aux[]){
  	int i, length, auxReturn=0;
 
 	length=strlen(aux);
@@ -185,8 +177,7 @@ int isLetter(char aux[])
    return auxReturn;
 }
 //////////////////////////////
-int isAlphaNumeric(char aux[])
-{
+int isAlphaNumeric(char aux[]){
   	int i, length, auxReturn=0;
 
 	length=strlen(aux);
@@ -211,8 +202,7 @@ int isAlphaNumeric(char aux[])
    return auxReturn;
 }
 ///////////////////////////
-int isTelephone(char aux[])
-{
+int isTelephone(char aux[]){
    	int i, length, auxReturn=0;
  	int symbolCounter=0;
 
