@@ -9,6 +9,8 @@
 #include <string.h>
 #include "validations.h"
 
+#define TRY 2
+
 int getInt(int *pResult ,char *pMsg,char *pMsgFail,int min,int max, int try){
 	int auxReturn = -1;
 	int buffer, j;
@@ -46,8 +48,8 @@ int getInt(int *pResult ,char *pMsg,char *pMsgFail,int min,int max, int try){
 	return auxReturn;
 }
 /////////////////////////////////////////////////////////////////////////////////////
-float getFloat(float *pResult, char *pMsg, char *pMsgFail, int min, int max, int try){
-	int auxReturn = -1;
+int getFloat(float *pResult, char *pMsg, char *pMsgFail, int min, int max, int try){
+	int auxReturn = 99;
 	float buffer;
 	int j;
 	char input[50];
@@ -57,25 +59,29 @@ float getFloat(float *pResult, char *pMsg, char *pMsgFail, int min, int max, int
 		printf("%s",pMsg);
 		for(j=0;j<try;j++)
 		{
-            fgets(input, sizeof(input), stdin);
+			fgets(input, sizeof(input), stdin);
+            auxReturn = isDecimal(input);
+            printf(" input X%s: ",input);
+            if(auxReturn == 0)
+            {
+                buffer = atof(input);
 
-			auxReturn = isDecimal(input);
-			if(auxReturn == 0)
-			{
-				buffer = atof(input);
-				if(buffer >= min && buffer <= max)
-				{
+                if(buffer >= min && buffer <= max)
+                {
                     *pResult = buffer;
-				}
-    			else
-				{
-					printf("%s",pMsgFail);
-				}
-        	}
-       		if(j == try && auxReturn != 0)
-        	{
-         		printf(" Sin reintentos.");
-        	}
+                    printf(" buffer X%f: ",buffer);
+                    break;
+                }
+            }
+            else
+            {
+                printf("%s",pMsgFail);
+                printf("\n%s",pMsg);
+            }
+        }
+        if(auxReturn!=0)
+        {
+            printf("Sin Reintentos.");
         }
     }
 	return auxReturn;
@@ -139,20 +145,20 @@ int isDecimal(char aux[]){
     length = strlen(aux);
     for(i=0;i<length-1;i++)
     {
-        if(aux[i] < '0' || aux[i] > '9' || aux[i]!= ',' || aux[i]!= '.' || aux[i]!= '-')
+        if((aux[i] < '0' || aux[i] > '9' )&& aux[i]!= ',' && aux[i]!= '.' && aux[i]!= '-')
 		{
             auxReturn = -1;
             break;
         }
-        if(aux[i]==',')
-		{
-			aux[i]='.';
-		}
 		if(aux[i]=='-'&& i!=0) // filtro p/negativos
 		{
 			auxReturn = -1;
 			break;
 		}
+		if(aux[i]==',')
+        {
+            aux[i]='.';
+        }
     }
     return auxReturn;
 }
@@ -229,4 +235,3 @@ int isTelephone(char aux[]){
     }
     return auxReturn;
 }
-
