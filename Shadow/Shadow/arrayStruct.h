@@ -96,11 +96,3 @@ int searchForOccurrence(Element pArray[], int size);
 */
 int sortElement(Element pArray[], int size, int pOrder);
 /////////////////////////////////////////////////////////////////////////// SORT
-/** informA
-*\brief Realiza un informe de datos cruzados especificos.
-*\param array es el array a ser inicializado
-*\param size indica la longitud del array
-*\return void
-*/
-int informA(Element pArray[], int size);
-/////////////////////////////////////////////////////////////////////////// INFA

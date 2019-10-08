@@ -419,8 +419,8 @@ int sortElement(Element pArray[], int size, int pOrder){
                         pIsEmpty = pArray[j].isEmpty;
                         ////////////////////////////////// swap Y ascendente step 1
                         pArray[j].id = pArray[j+1].id;
-                        strcpy(pName, pArray[j].name);
-                        strcpy(pLname, pArray[j].lName);
+                        strcpy(pArray[j].name, pArray[j+1].name);
+                        strcpy(pArray[j].name, pArray[j+1].lName);
                         pArray[j].salary = pArray[j+1].salary;
                         pArray[j].sector = pArray[j+1].sector;
                         pArray[j].isEmpty = pArray[j+1].isEmpty;
@@ -437,41 +437,6 @@ int sortElement(Element pArray[], int size, int pOrder){
             }
         }
         auxReturn=0;
-    }
-    return auxReturn;
-}
-/////////////////////////////////////////////////////////////////////////  Inform A
-int informA(Element pArray[], int size){
-    int auxReturn = -1;
-    int i;
-    int eToken=0;
-    int sToken=0;
-    float sBuffer=0;
-
-    if(pArray!= NULL && size>=0)
-    {
-        for(i=0;i<size-1;i++)
-        {
-            if(pArray[i].isEmpty == -1)
-                continue;
-            else if(pArray[i].isEmpty == 0)
-            {
-                eToken++;
-                sBuffer = sBuffer + pArray[i].salary;
-            }
-        }
-
-        printf("\n\nNOMINA SALARIAL: %.2f", sBuffer);
-        printf("\nSUELDO PROMEDIO: %.2f", sBuffer/eToken);
-
-        for(i=0;i<size-1;i++)
-        {
-            if(pArray[i].isEmpty == 0 && pArray[i].salary > sBuffer/eToken)
-            {
-                sToken++;
-            }
-        }
-        printf("\n\nEmpleados que superan el salario promedio: %d\n", sToken);
     }
     return auxReturn;
 }
