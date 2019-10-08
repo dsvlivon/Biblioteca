@@ -27,7 +27,7 @@ typedef struct{
 *\param size indica la longitud del array
 *\return void
 */
-void initElement(Element array[],int size);
+void initElement(Element pArray[],int size);
 /////////////////////////////////////////////////////////////////////////// INIT
 /** addElement
 *\brief Agrego datos a los distintos campos de la estructura en una posicion del array
@@ -35,7 +35,7 @@ void initElement(Element array[],int size);
 *\param size indica la longitud del array
 *\return void
 */
-int addElement(Element array[], int size);
+int addElement(Element pArray[], int size);
 /////////////////////////////////////////////////////////////////////////// ADD
 /** modifElement
 *\brief modifica los datos de los distintos campos de la estructura en una posicion del array
@@ -43,7 +43,7 @@ int addElement(Element array[], int size);
 *\param size indica la longitud del array
 *\return void
 */
-int modifElement(Element array[], int size);
+int modifElement(Element pArray[], int size);
 /////////////////////////////////////////////////////////////////////////// MODIF
 /** removeElement
 *\brief Realiza la baja logica de los datos de la estructura en una posicion del array
@@ -51,7 +51,7 @@ int modifElement(Element array[], int size);
 *\param size indica la longitud del array
 *\return void
 */
-int removeElement(Element array[], int size);
+int removeElement(Element pArray[], int size);
 /////////////////////////////////////////////////////////////////////////// REMOVE
 /** findId
 *\brief Pide un valor para recorrer el array, buscarlo y validar su disponibilidad
@@ -60,7 +60,7 @@ int removeElement(Element array[], int size);
 *\param auxId es el valor a comparar en la busqueda
 *\return void
 */
-int finId(Element array[], int size, int *auxId);
+int finId(Element pArray[], int size, int *auxId);
 /////////////////////////////////////////////////////////////////////////// FID
 /** printElement
 *\brief imprime en pantalla los datos de las posiciones marcadas como ocupado del array
@@ -68,7 +68,7 @@ int finId(Element array[], int size, int *auxId);
 *\param size indica la longitud del array
 *\return void
 */
-int printElement(Element array[],int size);
+int printElement(Element pArray[],int size);
 /////////////////////////////////////////////////////////////////////////// PRINT
 /** searchForEmpty
 *\brief Recorre el array buscando el primer valor de posicion libre disponible
@@ -77,7 +77,7 @@ int printElement(Element array[],int size);
 *\param position devuelve la posicion libre en cuestion
 *\return void
 */
-int searchForEmpty(Element array[], int size, int* position);
+int searchForEmpty(Element pArray[], int size, int* position);
 /////////////////////////////////////////////////////////////////////////// SFE
 /** searchForOccurrence
 *\brief Recorre el array buscando valores de posicion ocupadas
@@ -85,7 +85,7 @@ int searchForEmpty(Element array[], int size, int* position);
 *\param size indica la longitud del array
 *\return void
 */
-int searchForOccurrence(Element array[], int size);
+int searchForOccurrence(Element pArray[], int size);
 /////////////////////////////////////////////////////////////////////////// SFO
 /** sortElement
 *\brief Realiza uno o más ordenamientos segun un determinado criterio
@@ -94,7 +94,7 @@ int searchForOccurrence(Element array[], int size);
 *\param pOrder recibe un valor numerico que determina el criterio para ordenar
 *\return void
 */
-int sortElement(Element array[], int size, int pOrder);
+int sortElement(Element pArray[], int size, int pOrder);
 /////////////////////////////////////////////////////////////////////////// SORT
 /** informA
 *\brief Realiza un informe de datos cruzados especificos.
@@ -102,5 +102,5 @@ int sortElement(Element array[], int size, int pOrder);
 *\param size indica la longitud del array
 *\return void
 */
-int informA(Element array[], int size);
+int informA(Element pArray[], int size);
 /////////////////////////////////////////////////////////////////////////// INFA
