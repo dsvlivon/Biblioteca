@@ -1,0 +1,65 @@
+/*
+/////////////////////////////////////////////////////////////////////////  ADD
+int addRent(Rent rArray[], int size, int *auxcCode){
+    int auxReturn=0;
+    int freeSpotFlag,freeSpot;
+    ////////////
+    int pCcode;
+    //int pGcode;
+    char pDate[51];
+    ////////////
+    char aux[51];
+
+    freeSpotFlag = searchForEmptyRent(rArray, size ,&freeSpot);
+    if(freeSpotFlag == 0)
+    {
+        printf("\n\nNO QUEDAN JUEGOS DISPONIBLES!!!\n");
+    }
+    else if(freeSpotFlag == -1)
+    {
+        printf("\nAlta Alquiler Nro.%d: \n", freeSpot);
+        /////////////////////////////////////
+        pCcode=*auxcCode;
+        printf("id cliente %d", pCcode);
+        /*if(auxReturn==0)
+        {
+            auxReturn=findIdGame(gArray, QTY_GAME, &pGameId);
+            if(gArray[pGameId].rentFlag!=-1)
+            {
+                printf("\nJUEGO ALQUILADO\n");
+                auxReturn=-1;
+            }
+        }*/
+        /*
+        if(auxReturn==0)
+        {
+            auxReturn = getInput(aux, "Ingrese la fecha (xx/xx/xx): ","\nIngreso invalido!",0,8,2,4);
+            if(auxReturn == 0)
+            {
+                strcpy(pDate,aux);
+            }
+        }
+        ///////////////////////////////////////////////////
+        if(searchForEmptyRent(rArray,size,&freeSpot)== 0)//BUSCA REPETIDOS
+        {
+            printf("\n\nEL CODIGO YA EXISTE!!!\n");
+        }
+        if(auxReturn == 0)
+        {
+            freeSpotFlag=0;
+            rArray[freeSpot].rentCode= freeSpot;
+            //rArray[freeSpot].gameCode = pGcode;
+            rArray[freeSpot].clientCode = pCcode;
+            strcpy(rArray[freeSpot].date, pDate);
+            rArray[freeSpot].isEmpty=0;
+        }
+        //////////////////////////////////////////// testeo
+        /*printf("\nAuxReturn: %d\n\n",  auxReturn);
+        printf("freeSpotFlag: %d\n",  freeSpotFlag);
+        printf("id empleado: %d\n", pArray[freeSpot].id);
+        printf("freeSpot: %d  isEmpty: %d\n", freeSpot, pArray[freeSpot].isEmpty);
+        printf("freeSpot: %d  isEmpty: %d\n", freeSpot+1, pArray[freeSpot+1].isEmpty);*/
+    /*
+    }
+    return auxReturn;
+}*/

@@ -1,0 +1,34 @@
+Desarrollar en ANSI C:
+
+Se necesita administrar los alquileres de juegos infantiles, y para ello se deberá realizar un programa de acuerdo a lo siguiente:
+	Juego:
+-codigo
+-descripcion
+-importe
+-idcategoria
+
+	Categoria:
+-id
+-descripcion (max 51 caracteres) (mesa, azar, estrategia, salon, magia)
+
+	Cliente
+-codigo (auto incremental)
+-nombre (max 51 caracteres) validar
+-apellido (max 51 caracteres) validar
+-sexo validar
+-telefono (max 51 caracteres) validar
+
+ALQUILERES: 
+-codigo de alquiler (autoincremental)
+-codigo de juego validar
+-codigo de cliente validar
+-Fecha (estructura)(dia,mes,año)
+
+CLIENTES:
+a)Altas: no es necesario el ingreso de todos los cliente
+b)Modificar: se ingresara el codigo de cliente, permitiendo en un submenu modificar:
+	-nombre
+	-domicilio
+	-telefono
+c)Baja: Se ingresara el codigo de cliente y se realizara una baja logica.
+d)Listar: se dara de alta cada ocurrencia de alquiler, relacionando juego
